@@ -6,6 +6,9 @@ window.addEventListener('load', function () {
   console.log('Initializting App')
   const app = new App()
   window.app = app
+
+  document.body.innerHTML = indexPageHtml
+  document.body.onload = initIndexPage
 })
 
 function initIndexPage() {
@@ -17,6 +20,3 @@ function initIndexPage() {
     app.useOffline()
   })
 }
-
-document.body.innerHTML = indexPageHtml
-document.body.onload = initIndexPage
