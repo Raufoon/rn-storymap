@@ -1,7 +1,7 @@
 export default class Auth {
   constructor() {
     console.log('Initializing Auth')
-    this.user = null
+    this.user = JSON.parse(localStorage.getItem('auth-u'))
   }
 
   isLoggedIn() {
@@ -11,9 +11,11 @@ export default class Auth {
   login() {}
 
   loginAsOffline(name = 'Offline Company') {
+    console.log('Logging in as offline user')
     this.user = {
       isOffline: true,
       name,
     }
+    localStorage.setItem('auth-u', JSON.stringify(this.user))
   }
 }

@@ -1,5 +1,6 @@
 import App from './app'
 import indexPageHtml from './index.html'
+import storyMapPageHtml from './storymap.html'
 import './style.css'
 
 window.addEventListener('load', function () {
@@ -7,16 +8,9 @@ window.addEventListener('load', function () {
   const app = new App()
   window.app = app
 
-  document.body.innerHTML = indexPageHtml
-  document.body.onload = initIndexPage
+  if (app.auth.isLoggedIn()) {
+    document.body.innerHTML = storyMapPageHtml
+  } else {
+    document.body.innerHTML = indexPageHtml
+  }
 })
-
-function initIndexPage() {
-  console.log('Initializing Index Page')
-
-  const offlineLoginButton = document.getElementById('btn_login_offline')
-
-  offlineLoginButton.addEventListener('click', function () {
-    app.useOffline()
-  })
-}
