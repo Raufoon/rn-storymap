@@ -1,6 +1,6 @@
 import App from './app'
 import indexPageHtml from './index.html'
-import storyMapPageHtml from './storymap.html'
+import storyMapPageHtml from './app/storymap.html'
 import './style.css'
 
 window.addEventListener('load', function () {
