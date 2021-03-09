@@ -8,7 +8,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Output Management',
+      title: 'Storymap',
     }),
   ],
   output: {
@@ -37,6 +37,10 @@ module.exports = {
       {
         test: /\.xml$/i,
         use: ['xml-loader'],
+      },
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
       },
     ],
   },
