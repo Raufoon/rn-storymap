@@ -1,6 +1,7 @@
 import Auth from './Auth'
 import Database from './Database'
 import { DoublyLinkedList } from './DoublyLinkedList'
+import StoryMap from './StoryMap'
 
 export default class App {
   constructor() {
@@ -18,21 +19,27 @@ export default class App {
     this.initStoryMap()
   }
 
-  async initStoryMap() {
-    const rootStoryLL = await this.db.getAllAsLinkedList('RootStory')
+  async initStoryMap(projectId = 'proj1') {
+    const project = await this.db.get('ProjectBoard', projectId)
 
-    rootStoryLL.forEach(async (rootStory) => {
-      const { activityStoryIds } = rootStory
-      const activityStoryLL = new DoublyLinkedList()
+    const allRootStories = await this.db.getAllByIds(
+      'RootStory',
+      project.rootStoryIds
+    )
 
-      activityStoryIds.forEach(async (asId) => {
-        const activityStory = await this.db.getById('ActivityStory', asId)
-        activityStoryLL.insert(activityStory)
-      })
+    const allActivityStoryIds = [].concat(
+      ...allRootStories.map((story) => story.activityStoryIds)
+    )
 
-      rootStory.activityStoryLL = activityStoryLL
-    })
+    const allActivityStories =
+      (await this.db.getAllAsMap('ActivityStory', allActivityStoryIds)) || []
 
-    console.log(rootStoryLL)
+    const allStoryIds = [].concat(
+      ...Object.values(allActivityStories).map((story) => story.storyIds || [])
+    )
+
+    const allStories = await this.db.getAllAsMap('Story', allStoryIds)
+
+    this.storyMap = new StoryMap(allRootStories, allActivityStories, allStories)
   }
 }

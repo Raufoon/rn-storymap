@@ -60,6 +60,7 @@ export default class Database {
         name: 'Remote Deposit Capture',
         userRoles: ['Bank Customer', 'Portal Admin'],
         rootStoryIds: ['rs1', 'rs2'],
+        totalReleases: 1,
       },
     ])
 
@@ -131,18 +132,37 @@ export default class Database {
     ])
   }
 
+  async get(tablename, id) {
+    const db = await openDB(dbname, version)
+    return db.get(tablename, id)
+  }
+
   async getById(tableName, id) {
     const db = await openDB(dbname, version)
     return db.get(tableName, id)
   }
 
+  async getAllByIds(tablename, idList) {
+    const db = await openDB(dbname, version)
+    const all = await Promise.all(idList.map((id) => db.get(tablename, id)))
+    return all
+  }
+
   async getAll(tableName) {
     const db = await openDB(dbname, version)
-    const rootStories = await db.getAll(tableName)
-    return rootStories
+    const all = await db.getAll(tableName)
+    return all
   }
 
   async getAllAsLinkedList(tableName) {
     return DoublyLinkedList.fromArray(await this.getAll(tableName))
+  }
+
+  async getAllAsMap(tableName, selectedIds) {
+    const all = selectedIds
+      ? await this.getAllByIds(tableName, selectedIds)
+      : await this.getAll(tableName)
+
+    return all.reduce((result, item) => ({ ...result, [item.id]: item }), {})
   }
 }

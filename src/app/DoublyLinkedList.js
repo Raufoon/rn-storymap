@@ -39,7 +39,7 @@ export class DoublyLinkedList {
     return list
   }
 
-  forEach(task) {
+  forEachNode(task) {
     let curr = this.head
     while (curr) {
       task(curr)
