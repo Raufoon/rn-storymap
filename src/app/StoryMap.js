@@ -1,7 +1,8 @@
 import { DoublyLinkedList } from './DoublyLinkedList'
 
 export default class StoryMap {
-  constructor(allRootStories, allActivityStories, allStories) {
+  constructor(project, allRootStories, allActivityStories, allStories) {
+    this.project = project
     this.rootStoryLL = DoublyLinkedList.fromArray(allRootStories)
 
     // Create the LL-grid with root and activity stories

@@ -40,6 +40,11 @@ export default class App {
 
     const allStories = await this.db.getAllAsMap('Story', allStoryIds)
 
-    this.storyMap = new StoryMap(allRootStories, allActivityStories, allStories)
+    this.storyMap = new StoryMap(
+      project,
+      allRootStories,
+      allActivityStories,
+      allStories
+    )
   }
 }
