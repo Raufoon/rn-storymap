@@ -1,12 +1,14 @@
 import { openDB } from 'idb'
+import { DoublyLinkedList } from './DoublyLinkedList'
 
 const dbname = 'StoryMapDB'
+const version = 1
 
 export default class Database {
   constructor() {
     console.log('Initializing Database')
 
-    openDB(dbname, 1, {
+    openDB(dbname, version, {
       upgrade(db) {
         db.createObjectStore('Team', { keyPath: 'id' })
         db.createObjectStore('Developer', { keyPath: 'id' })
@@ -127,5 +129,20 @@ export default class Database {
         release: 1,
       },
     ])
+  }
+
+  async getById(tableName, id) {
+    const db = await openDB(dbname, version)
+    return db.get(tableName, id)
+  }
+
+  async getAll(tableName) {
+    const db = await openDB(dbname, version)
+    const rootStories = await db.getAll(tableName)
+    return rootStories
+  }
+
+  async getAllAsLinkedList(tableName) {
+    return DoublyLinkedList.fromArray(await this.getAll(tableName))
   }
 }
