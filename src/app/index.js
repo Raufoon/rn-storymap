@@ -46,5 +46,7 @@ export default class App {
       allActivityStories,
       allStories
     )
+
+    this.storyMap.draw()
   }
 }

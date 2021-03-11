@@ -2,6 +2,7 @@ export class DoublyLinkedList {
   constructor() {
     this.head = null
     this.tail = null
+    this.count = 0
   }
 
   static createNode(data) {
@@ -14,6 +15,8 @@ export class DoublyLinkedList {
 
   insert(data, position) {
     const node = DoublyLinkedList.createNode(data)
+
+    this.count++
 
     if (!this.head) {
       this.head = node
